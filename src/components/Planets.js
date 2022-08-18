@@ -12,23 +12,23 @@ const Planets = () => {
     return res.json();
   };
 
-  const { data, status, isPreviousData } = useQuery(
+  const { data, status, isSuccess } = useQuery(
     ["planets", page],
-    fetchPlanets
+    fetchPlanets,
+    { keepPreviousData: true }
   );
-  console.log("✨ 🌟 ~ data", data);
   return (
     <div>
       <h2>Planets</h2>
       <button
         onClick={() => setPage(page - 1)}
-        disabled={data?.previous === null}
+        disabled={!isSuccess || data?.previous === null}
       >
         Previous
       </button>
       <button
         onClick={() => setPage(page + 1)}
-        disabled={isPreviousData || data?.next === null || undefined}
+        disabled={!isSuccess || data?.next === null || undefined}
       >
         Next
       </button>
